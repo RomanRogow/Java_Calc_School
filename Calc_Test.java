@@ -1,36 +1,31 @@
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Calc_Test {
+public class CalcTest {
     public static void main(String[] args) throws NumberFormatException {
         Scanner scanner = new Scanner(System.in);
+        while(true){
         System.out.println("Введите выражение через пробел: ");
         String scan = scanner.nextLine();
+            if(scan.equalsIgnoreCase("exit")){
+                System.out.println("Пока!");
+                break;
+            }
         System.out.println("Ваш ввод: " + scan);
         try {
             calc(scan);
         } catch (IndexOutOfBoundsException e){
             System.out.println("throws Exception// т.к. строка не является математической операцией");;
         }
+        }
     }
-
-
+    
     public static void calc(String input){
         int a1;
         int a2;
         String[] ver = input.split(" "); // ver[0],vwe[1],ver[2]-> более 3х нужен - throw Exception
-        if (ver.length == 4){
-            try {
-                throw new IOException();
-            }catch (IOException e){
-                System.out.println("throw Exception");
-                System.exit(1);
-            }
-        }
-        if (ver.length > 4){
-            System.out.println("throws Exception// т.к. формат математическай операции не удовлетворяет заданию - два \n" +
-                    "операнда и один оперотор (+, -, /, *)");
-            return;
+        if (ver.length != 3) {
+    throw new IllegalArgumentException("Неверный формат. Используйте: число оператор число");
         }
         try {
             a1 = Integer.valueOf(ver[0]);
@@ -44,7 +39,7 @@ public class Calc_Test {
             return;
         }
 
-        System.out.println("Первая опервнда: " + a1);
+        System.out.println("Первая операнда: " + a1);
         System.out.println("Вторая операнда: " + a2);
         System.out.println("Оператор; " + ver[1]);
 
@@ -57,6 +52,10 @@ public class Calc_Test {
                 System.out.println(a1 + " - " + a2 + " = " +  (result = a1 - a2));
                 break;
             case "/":
+            if(a2 == 0){
+                System.out.println("Деление на ноль запрещено!");
+                return;
+            }
                 System.out.println(a1 + " / " + a2 + " = " +  (result = a1 % a2));
                 break;
             case "*":
